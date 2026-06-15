@@ -53,7 +53,7 @@ export function ComparePanel() {
           const el = exportCardRefs.current[t];
           if (!el) return null;
           return {
-            element: el,
+            element: el as HTMLElement,
             filename: `${baseName}-${templateNames[t]}`,
           };
         })
