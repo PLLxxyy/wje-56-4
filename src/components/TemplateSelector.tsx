@@ -1,4 +1,4 @@
-import { Palette } from 'lucide-react';
+import { Palette, Layers } from 'lucide-react';
 import { usePodcastStore } from '../store/usePodcastStore';
 import { TemplateType } from '../types';
 
@@ -10,7 +10,7 @@ const templates: { id: TemplateType; name: string; preview: string }[] = [
 ];
 
 export function TemplateSelector() {
-  const { template, setTemplate } = usePodcastStore();
+  const { template, setTemplate, compareMode, setCompareMode } = usePodcastStore();
 
   return (
     <div className="space-y-4">
@@ -22,9 +22,12 @@ export function TemplateSelector() {
         {templates.map((t) => (
           <button
             key={t.id}
-            onClick={() => setTemplate(t.id)}
+            onClick={() => {
+              setTemplate(t.id);
+              if (compareMode) setCompareMode(false);
+            }}
             className={`relative p-3 rounded-xl border-2 transition-all ${
-              template === t.id
+              template === t.id && !compareMode
                 ? 'border-purple-500 ring-2 ring-purple-500/30'
                 : 'border-zinc-700 hover:border-zinc-600'
             }`}
@@ -50,7 +53,7 @@ export function TemplateSelector() {
               </div>
             </div>
             <span className="text-xs text-zinc-300">{t.name}</span>
-            {template === t.id && (
+            {template === t.id && !compareMode && (
               <div className="absolute top-2 right-2 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 bg-white rounded-full" />
               </div>
@@ -58,6 +61,25 @@ export function TemplateSelector() {
           </button>
         ))}
       </div>
+
+      <button
+        onClick={() => setCompareMode(!compareMode)}
+        className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-center gap-2 ${
+          compareMode
+            ? 'border-purple-500 bg-purple-500/10 ring-2 ring-purple-500/30'
+            : 'border-zinc-700 hover:border-zinc-600 bg-zinc-800/50'
+        }`}
+      >
+        <Layers className={`w-4 h-4 ${compareMode ? 'text-purple-400' : 'text-zinc-400'}`} />
+        <span className={`text-sm font-medium ${compareMode ? 'text-purple-300' : 'text-zinc-300'}`}>
+          对比模式
+        </span>
+        {compareMode && (
+          <span className="text-xs text-purple-400 bg-purple-500/20 px-2 py-0.5 rounded-full">
+            开启
+          </span>
+        )}
+      </button>
     </div>
   );
 }

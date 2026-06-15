@@ -22,4 +22,5 @@ export interface CardState {
   template: TemplateType;
   size: SizeType;
   rawChapterText: string;
+  compareMode: boolean;
 }

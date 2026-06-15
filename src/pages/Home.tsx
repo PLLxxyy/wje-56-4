@@ -1,9 +1,12 @@
 import { useRef } from 'react';
 import { EditorPanel } from '../components/EditorPanel';
 import { PreviewPanel } from '../components/PreviewPanel';
+import { ComparePanel } from '../components/ComparePanel';
+import { usePodcastStore } from '../store/usePodcastStore';
 
 export default function Home() {
   const exportRef = useRef<HTMLDivElement>(null);
+  const { compareMode } = usePodcastStore();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
@@ -16,7 +19,7 @@ export default function Home() {
         </div>
         
         <div className="w-full lg:w-2/5 h-1/2 lg:h-full overflow-hidden">
-          <PreviewPanel exportRef={exportRef} ref={exportRef} />
+          {compareMode ? <ComparePanel /> : <PreviewPanel exportRef={exportRef} ref={exportRef} />}
         </div>
       </div>
     </div>

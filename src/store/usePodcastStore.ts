@@ -20,6 +20,7 @@ interface PodcastStore extends CardState {
   addChapter: () => void;
   setTemplate: (template: TemplateType) => void;
   setSize: (size: SizeType) => void;
+  setCompareMode: (compareMode: boolean) => void;
   reset: () => void;
 }
 
@@ -40,6 +41,7 @@ export const usePodcastStore = create<PodcastStore>()(
       template: 'dark',
       size: 'portrait',
       rawChapterText: defaultRawText,
+      compareMode: false,
 
       setPodcast: (info) =>
         set((state) => ({
@@ -82,6 +84,8 @@ export const usePodcastStore = create<PodcastStore>()(
 
       setSize: (size) => set({ size }),
 
+      setCompareMode: (compareMode) => set({ compareMode }),
+
       reset: () =>
         set({
           podcast: defaultPodcast,
@@ -89,6 +93,7 @@ export const usePodcastStore = create<PodcastStore>()(
           template: 'dark',
           size: 'portrait',
           rawChapterText: '',
+          compareMode: false,
         }),
     }),
     {
@@ -99,6 +104,7 @@ export const usePodcastStore = create<PodcastStore>()(
         chapters: state.chapters,
         template: state.template,
         size: state.size,
+        compareMode: state.compareMode,
       }),
     }
   )
